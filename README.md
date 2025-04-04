@@ -1,5 +1,14 @@
 # 🏗️ ArchitectureGen
 
+## Libraries required
+
+```text
+ast
+os
+collections
+GitPython - pip install GitPython
+```
+
 ## 🚀 Steps to Use
 
 ### 🔹 Step 1: Clone the Repository
