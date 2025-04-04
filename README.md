@@ -1,5 +1,7 @@
 # 🏗️ ArchitectureGen
 
+![Drawio](./drawio.png)
+
 ## Libraries required
 
 ```text
