@@ -27,5 +27,5 @@ if __name__ == "__main__":
     all_py_files = read_python_files(local_repo)
 
     print(f"\n[INFO] Total Python files found: {len(all_py_files)}\n")
-    for path, content in all_py_files[:3]:  # Show first 3 files
+    for path, content in all_py_files[:3]:
         print(f"File: {path}\n{'-'*40}\n{content[:300]}...\n{'='*60}\n")
