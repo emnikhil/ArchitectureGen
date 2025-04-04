@@ -1,6 +1,6 @@
 # 🏗️ ArchitectureGen
 
-![Drawio](./drawio.png)
+![Drawio](Drawio.png)
 
 ## Libraries required
 
