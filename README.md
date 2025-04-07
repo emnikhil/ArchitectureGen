@@ -8,7 +8,8 @@
 ast
 os
 collections
-GitPython - pip install GitPython
+GitPython - pip3 install GitPython
+Streamlit - pip3 install streamlit
 ```
 
 ## 🚀 Steps to Use
