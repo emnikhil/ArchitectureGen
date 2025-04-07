@@ -107,3 +107,28 @@ def log_end_time():
     print(f'End time: {datetime.now()}')
 ------------------------------------------------------------
 ```
+
+### 🔹 Step 3: Generate Flow Chart
+The tool builds a true DAG flowchart by parsing ```>>, <<, .set_upstream() & .set_downstream() calls```. It also extracts DAG metadata like schedule_interval, start_date, owner, and email, shown above the chart.
+
+#### ✅ Output:
+
+```text
+🧩 Mermaid Flowchart:
+flowchart TD
+    start["start"]
+    start --> fetch_and_upload_data_gcs_task["fetch_and_upload_data_gcs_task"]
+    fetch_and_upload_data_gcs_task --> load_data_bq_task["load_data_bq_task"]
+    load_data_bq_task --> trigger_procedure_task["trigger_procedure_task"]
+    trigger_procedure_task --> end_node["end"]
+    end_node["end"]
+[SAVED] Mermaid chart saved to mermaid_charts/crypto_dag.md
+```
+
+### 🔹 Step 4: Run Tool via main.py
+Use the CLI to analyze a DAG file or folder.
+It will generate flowcharts, extract function logic, and save the Mermaid markdowns to mermaid_charts/.
+
+```text
+python main.py
+```
