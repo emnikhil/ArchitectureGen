@@ -1,6 +1,6 @@
 # 🏗️ ArchitectureGen
 
-![Drawio](Drawio.png)
+![Drawio](images/Drawio.png)
 
 ## Libraries required
 
@@ -132,3 +132,5 @@ It will generate flowcharts, extract function logic, and save the Mermaid markdo
 ```text
 python main.py
 ```
+
+![MermaidJS](images/mermaidjs_output.png)
