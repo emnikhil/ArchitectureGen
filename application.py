@@ -7,9 +7,7 @@ from urllib.parse import urlparse
 
 from clone_repo import clone_repo, read_python_files
 from extract_dags import process_all_dag_files, index_all_functions, resolve_task_functions
-from generate_chart import generate_mermaid_flowchart, save_mermaid_chart_as_markdown
-
-CHART_FOLDER = "mermaid_charts"
+from generate_chart import generate_mermaid_flowchart
 
 def get_repo_name(repo_url):
     return urlparse(repo_url).path.rstrip("/").split("/")[-1]
@@ -29,25 +27,6 @@ def render_mermaid(mermaid_code: str):
         scrolling=True,
     )
 
-def load_mermaid_chart(file_path: str) -> str:
-    with open(file_path, "r") as f:
-        content = f.read()
-    if "```mermaid" in content:
-        lines = content.splitlines()
-        chart_lines = []
-        inside_block = False
-        for line in lines:
-            if line.strip().startswith("```mermaid"):
-                inside_block = True
-                continue
-            elif line.strip().startswith("```") and inside_block:
-                break
-            if inside_block:
-                chart_lines.append(line)
-        return "\n".join(chart_lines).strip()
-    return content.strip()
-
-# === UI ===
 st.title("📊 ArchitectureGen")
 
 repo_url = st.text_input("🔗 Enter GitHub Repo URL", placeholder="https://github.com/repo")
@@ -59,9 +38,6 @@ if start:
     else:
         status = st.empty()
         chart_outputs = []
-
-        if os.path.exists(CHART_FOLDER):
-            shutil.rmtree(CHART_FOLDER)
 
         try:
             repo_name = get_repo_name(repo_url)
@@ -91,8 +67,7 @@ if start:
                     chart = generate_mermaid_flowchart(task_ids)
 
                     dag_name = info["dags"][0] if info["dags"] else repo_name
-                    file_path = save_mermaid_chart_as_markdown(path, dag_name, chart)
-                    chart_outputs.append((dag_name, chart, file_path))
+                    chart_outputs.append((dag_name, chart))
                 except Exception as e:
                     st.error(f"❌ Failed to process DAG file {path}: {e}")
 
@@ -100,11 +75,11 @@ if start:
 
             if chart_outputs:
                 if len(chart_outputs) == 1:
-                    dag_name, chart, _ = chart_outputs[0]
+                    dag_name, chart = chart_outputs[0]
                     st.markdown(f"#### 📁 {dag_name}")
                     render_mermaid(chart)
                 else:
-                    dag_names = [name for name, _, _ in chart_outputs]
+                    dag_names = [name for name, _ in chart_outputs]
                     selected_dag = st.selectbox("📂 Select a DAG to view", dag_names)
                     selected_chart = next(item for item in chart_outputs if item[0] == selected_dag)
                     st.markdown(f"#### 📁 {selected_dag}")
@@ -116,3 +91,4 @@ if start:
         finally:
             if 'CLONED_REPO_PATH' in locals() and os.path.exists(CLONED_REPO_PATH):
                 shutil.rmtree(CLONED_REPO_PATH)
+                print("[INFO] Successfully deleted cloned repo")
