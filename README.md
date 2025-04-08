@@ -134,4 +134,4 @@ It will generate clone the Git Repo, extract the files, analyze and generate the
 python3 -m streamlit run application.py
 ```
 
-![MermaidJS](images/mermaidjs_output.png)
+![MermaidJS](images/UI.png)
