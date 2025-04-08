@@ -4,8 +4,7 @@ from generate_chart import generate_mermaid_flowchart, save_mermaid_chart_as_mar
 import os
 import shutil
 
-if __name__ == "__main__":
-    REPO_URL = "https://github.com/emnikhil/Crypto-Data-Pipeline"
+def process_repo(REPO_URL):
     CLONED_REPO_PATH = clone_repo(REPO_URL)
     DAGS_FOLDER = os.path.join(CLONED_REPO_PATH, "dag_file")
 
@@ -18,9 +17,9 @@ if __name__ == "__main__":
     print("[INFO] Indexing all function definitions...")
     func_index = index_all_functions(all_py_files)
 
+    results = []
     all_successful = True
 
-    print("\n=========== DAG Task Function Mapping ===========\n")
     for path, info in all_dag_info.items():
         try:
             print(f"\n📄 DAG File: {path}")
@@ -37,23 +36,22 @@ if __name__ == "__main__":
                 print(f"    Logic:\n{details['source']}")
                 print("-" * 60)
 
-            print("\n🧩 Mermaid Flowchart:")
             chart = generate_mermaid_flowchart(task_ids)
+            print("\n🧩 Mermaid Flowchart:")
             print(chart)
 
             dag_name = info["dags"][0] if info["dags"] else "UnnamedDAG"
             save_mermaid_chart_as_markdown(path, dag_name, chart)
-            print("=" * 80)
-
+            results.append((dag_name, chart))
         except Exception as e:
             all_successful = False
             print(f"[ERROR] Failed to process DAG file {path}: {e}")
 
-    if all_successful:
-        try:
+    try:
+        if all_successful and os.path.exists(CLONED_REPO_PATH):
             shutil.rmtree(CLONED_REPO_PATH)
-            print(f"[INFO] Successfully deleted cloned repo")
-        except Exception as e:
-            print(f"[ERROR] Failed to delete cloned repo: {e}")
-    else:
-        print("[INFO] Skipped deletion of repo due to processing errors.")
+            print("[INFO] Successfully deleted cloned repo")
+    except Exception as e:
+        print(f"[ERROR] Failed to delete cloned repo: {e}")
+
+    return results
