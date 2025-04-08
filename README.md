@@ -126,12 +126,12 @@ flowchart TD
 [SAVED] Mermaid chart saved to mermaid_charts/crypto_dag.md
 ```
 
-### 🔹 Step 4: Run Tool via main.py
-Use the CLI to analyze a DAG file or folder.
-It will generate flowcharts, extract function logic, and save the Mermaid markdowns to mermaid_charts/.
+🔹 Step 4: Run the Tool via application.py
+Use the CLI to analyze the Git Repo Architecture easily.
+It will generate clone the Git Repo, extract the files, analyze and generate the flow charts.
 
 ```text
-python main.py
+python3 -m streamlit run application.py
 ```
 
 ![MermaidJS](images/mermaidjs_output.png)
