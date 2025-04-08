@@ -90,5 +90,8 @@ if start:
             status.error(f"❌ Failed to process repository: {e}")
         finally:
             if 'CLONED_REPO_PATH' in locals() and os.path.exists(CLONED_REPO_PATH):
-                shutil.rmtree(CLONED_REPO_PATH)
-                print("[INFO] Successfully deleted cloned repo")
+                try:
+                    shutil.rmtree(CLONED_REPO_PATH)
+                    status.info("🧹 Cloned repository cleaned up from disk.")
+                except Exception as e:
+                    status.warning(f"⚠️ Could not delete cloned repository: {e}")
