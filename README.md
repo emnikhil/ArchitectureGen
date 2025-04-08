@@ -1,8 +1,8 @@
 # 🏗️ ArchitectureGen
 
-![Drawio](images/Drawio.png)
-
 ![Output Video](images/outputVideo_gif.gif)
+
+![Drawio](images/Drawio.png)
 
 ## Libraries required
 
